@@ -203,8 +203,27 @@ function extractEmails(str) {
  *             '└──────────┘\n'
  *
  */
-function getRectangleString(/* width, height */) {
-  throw new Error('Not implemented');
+function getRectangleString(width, height) {
+  const innerWidth = width - 2;
+  const border = '─'.repeat(innerWidth);
+  const space = ' '.repeat(innerWidth);
+
+  const joiner = (arr) => arr.join('').concat('\n');
+
+  const firstRow = joiner(['┌', border, '┐']);
+  const lastRow = joiner(['└', border, '┘']);
+  const vertical = '│';
+  const middleRow = joiner([vertical, space, vertical]);
+
+  return Array(height).fill().map((_, i) => {
+    if (i === 0) {
+      return firstRow;
+    }
+    if (i === height - 1) {
+      return lastRow;
+    }
+    return middleRow;
+  }).join('');
 }
 
 
@@ -224,8 +243,20 @@ function getRectangleString(/* width, height */) {
  *    => 'NOPQRSTUVWXYZABCDEFGHIJKLMnopqrstuvwxyzabcdefghijklm'
  *
  */
-function encodeToRot13(/* str */) {
-  throw new Error('Not implemented');
+function encodeToRot13(str) {
+  const a = 'a'.charCodeAt();
+  const z = 'z'.charCodeAt();
+  const abc = Array(z - a + 1).fill().map((_, i) => String.fromCharCode(a + i));
+  const rot13 = abc.slice(13).concat(abc.slice(0, 13));
+
+  return str.split('').map((letter) => {
+    const code = letter.toLowerCase().charCodeAt();
+    if (code < a || code > z) return letter;
+    const isUpper = letter.charCodeAt() < a;
+    let encrypted = rot13[code - a];
+    if (isUpper) encrypted = encrypted.toUpperCase();
+    return encrypted;
+  }).join('');
 }
 
 /**
