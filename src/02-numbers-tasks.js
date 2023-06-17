@@ -51,9 +51,9 @@ function getCircleCircumference(radius) {
  *  10, 0  => 5
  *  -3, 3  => 0
  */
-function getAverage(/* value1, value2 */) {
-  throw new Error('Not implemented');
-  // return (value1 * value2) / 2;
+function getAverage(value1, value2) {
+  // eslint-disable-next-line no-undef
+  return (BigInt(value1) + BigInt(value2)) / BigInt(2);
 }
 
 /**
@@ -110,8 +110,11 @@ function getLinearEquationRoot(a, b) {
  *   (0,1) (0,1)     => 0
  *   (0,1) (1,2)     => 0
  */
-function getAngleBetweenVectors(/* x1, y1, x2, y2 */) {
-  throw new Error('Not implemented');
+function getAngleBetweenVectors(x1, y1, x2, y2) {
+  const getLength = (x, y) => Math.sqrt(x ** 2 + y ** 2);
+  const dotProduct = x1 * x2 + y1 * y2;
+  const cos = dotProduct / (getLength(x1, y1) * getLength(x2, y2));
+  return Math.acos(cos);
 }
 
 /**
@@ -160,8 +163,16 @@ function parseNumberFromString(value) {
  *   3,3,3   => 5.196152422706632
  *   1,2,3   => 3.741657386773941
  */
-function getParallelepipedDiagonal(/* a, b, c */) {
-  throw new Error('Not implemented');
+function getParallelepipedDiagonal(a, b, c) {
+  // todo: redo!
+  function getHypotenuse(_x, _y) {
+    const multiplier = 1000000000000000000000;
+    const x = _x / multiplier;
+    const y = _y / multiplier;
+    return Math.sqrt(x ** 2 + y ** 2) * multiplier;
+  }
+
+  return getHypotenuse(getHypotenuse(a, b), c);
 }
 
 
@@ -204,8 +215,14 @@ function roundToPowerOfTen(num, pow) {
  *   16 => false
  *   17 => true
  */
-function isPrime(/* n */) {
-  throw new Error('Not implemented');
+function isPrime(n) {
+  const root = Math.sqrt(n);
+  let i = 2;
+  while (i <= root) {
+    if (n % i === 0) return false;
+    i += 1;
+  }
+  return true;
 }
 
 /**
